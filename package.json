@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "showdown": "^2.1.0"
+  }
+}
