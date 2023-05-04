@@ -12,3 +12,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Run respec_action
         uses: edsu/respec-action@v0.1.2
+        with:
+          publish_branch: main
