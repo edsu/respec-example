@@ -13,6 +13,6 @@ jobs:
       - name: ls
         run: "ls -al"
       - name: Run respec_action
-        uses: ./
+        uses: edsu/respec-action@v0.1.0
         with:
           markdown_dir: 'test-data'
