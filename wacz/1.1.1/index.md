@@ -1,201 +1,63 @@
-<html>
-  <head>
-  <meta charset="utf8">
-  <title>Web Archive Collection Zipped (WACZ)</title>
-  <script src="../../assets/js/respec-webrecorder.js" class="remove" defer ></script>
-  <script class="remove">
-    var respecConfig = {
-      specStatus: "REC",
-      publishDate: "2021-06-03",
-      license: "cc-by",
-      thisVersion: "https://specs.webrecorder.net/wacz/1.1.1/",
-      latestVersion: "https://specs.webrecorder.net/wacz/latest/",
-      shortName: "wacz",
-      group: "WACZ",
-      lint: {
-	// turn off w3c-specific linting
-	"privsec-section": false,
-	"no-http-props": false,
-	"no-headingless-sections": false
-      },
-      includePermalinks: true,
-      authors: [],
-      editors: [
-	{
-	  name: "Ilya Kreymer",
-	  url: "https://www.linkedin.com/in/ilya-kreymer-55110093/",
-	  company: "Webrecorder",
-	  companyURL: "https://webrecorder.net/"
-	},
-        {
-          name: "Ed Summers",
-          url: "https://www.linkedin.com/in/esummers/",
-          company: "Stanford University",
-          companyURL: "https://stanford.edu"
-        }
-      ],
-      group: {
-        name: "WACZ Editors",
-        url: "https://webrecorder.net"
-      },
-      otherLinks: [
-	{
-	  key: "Additional Documents",
-	  data: [
-	    {
-	      value: "Use Cases for Decentralized Web Archives",
-	      href: "https://specs.webrecorder.net/use-cases/latest/",
-	    }
-	  ]
-	},
-	{
-	  key: "Previous versions",
-	  data: [
-	      {
-		  value: "1.1.0",
-                  href: "https://github.com/webrecorder/specs/blob/2ec8e3e8ec8a491c8c2236fdb44a513cfbb2cb17/README.md"
-	      },
+# Web Archive Collection Zipped (WACZ) 
+ 
+# Status of This Document
 
-              {
-                  value: "1.0.0",
-                  href: "https://github.com/webrecorder/specs/blob/1f511c67b1312ec9215cb8443387340d39c8783b/README.md"
-              }
-	  ]
-      	},
-	{
-	  key: "Repository",
-	  data: [
-	    {
-	      value: "Github",
-	      href: "https://github.com/webrecorder/specs"
-	    },
-	    {
-	      value: "Issues",
-	      href: "https://github.com/webrecorder/specs/issues"
-	    },
-	    {
-	      value: "Commits",
-	      href: "https://github.com/webrecorder/specs/commits"
-	    }
-	  ]
-      	}
-      ],
-      maxTocLevel: 3,
-      logos: [
-	{
-	  src: "../../assets/images/webrecorder.svg",
-	  alt: "Webrecorder Logo",
-          height: 100
-      	}
-      ],
-      localBiblio: {
-        "PYWB-CDXJ": {
-          title: "pywb Indexing: CDXJ Format",
-          publisher: "Webrecorder",
-          href: "https://pywb.readthedocs.io/en/latest/manual/indexing.html#cdxj-index",
-        }
-      },
-    };
-  </script>
-  </head>
+This is a stable version of the WACZ standard and is in active use by
+the Webrecorder project. Please open [GitHub issues](https://github.com/webrecorder/specs/issues/)
+for questions and suggestions.
 
-  <body>
+# Abstract
 
-    <section id="sotd" class="introductory">
-      <h2>Status of this Document</h2>
-      This is a stable version of the WACZ standard and is in active use by
-      the Webrecorder project. Please open <a
-      href="https://github.com/webrecorder/specs/issues/">GitHub issues</a>
-      for questions and suggestions.
-    </section>
+WACZ is a <a>media type</a> that allows web archive <a>collections</a> to be
+<a>packaged</a> and shared on the web as a discrete file. A WACZ file includes
+all the data that is needed for the rendering archived content as well as
+<a>contextual information</a> required for users to interpret it. Rendering
+software can obtain this data on demand using HTTP Range requests,
+without requiring the entire file to be fully retrieved, or for it to be
+otherwise mediated by specialized server side software.
 
-    <section id="abstract">
-      WACZ is a <a>media type</a> that allows web archive <a>collections</a> to be
-      <a>packaged</a> and shared on the web as a discrete file. A WACZ file includes
-      all the data that is needed for the rendering archived content as well as
-      <a>contextual information</a> required for users to interpret it. Rendering
-      software can obtain this data on demand using HTTP Range requests,
-      without requiring the entire file to be fully retrieved, or for it to be
-      otherwise mediated by specialized server side software.
-    </section>
-
-    <section id="conformance"></section>
-
-    <section id="terminology">
-
-      <h2>Terminology</h2>
+# Terminology
       
-      <div>
-        <p>
-          This section defines the terms used in this specification and
-          throughout web archives infrastructure. A link to these terms
-          is included whenever they appear in this specification.
-        </p>
-        <dl class="termlist">
+This section defines the terms used in this specification and throughout web
+archives infrastructure. A link to these terms is included whenever they appear
+in this specification.
 
-          <dt><dfn id="dfn-collection">Collection</dfn></dt>
-          <dd>An arbitrary set of related archived web pages and metadata based on some
-            topic, website domain(s), time period, or other conceptual grouping.</dd>
+<dl class="termlist">
 
-          <dt><dfn id="dfn-context" data-lt="contextual information">Context</dfn></dt>
-          <dd>Descriptive information about a web archive that helps a person
-            using that web archive understand and interpret what the archive
-            contains. This information can include why the content was selected
-            for the archive, when it was created, who created it, and what tools 
-            or applications were used to create it.</dd>
+<dt><dfn id="dfn-collection">Collection</dfn></dt>
+<dd>An arbitrary set of related archived web pages and metadata based on some topic, website domain(s), time period, or other conceptual grouping.</dd>
 
-          <dt><dfn id="dfn-iipc">IIPC</dfn></dt>
-          <dd>The International Internet Preservation Consortium. An
-            organization of libraries, archives and other organizations
-            established in 2003 to coordinate efforts to preserve web content.
-          </dd>
+<dt><dfn id="dfn-context" data-lt="contextual information">Context</dfn></dt>
+<dd>Descriptive information about a web archive that helps a person using that web archive understand and interpret what the archive contains. This information can include why the content was selected for the archive, when it was created, who created it, and what tools or applications were used to create it.</dd>
 
-          <dt><dfn id="dfn-mediatype">Media Type</dfn></dt>
-          <dd>A two-part identifier  for file formats that are transferred on the
-            World Wide Web and the underlying Internet. [[IANA-MEDIA-TYPES]].
-          </dd>
+<dt><dfn id="dfn-iipc">IIPC</dfn></dt>
+<dd>The International Internet Preservation Consortium. An organization of libraries, archives and other organizations established in 2003 to coordinate efforts to preserve web content.</dd>
 
-          <dt><dfn id="dfn-package" data-lt="packaging|packaged">Package</dfn></dt>
-          <dd>A file format that allows distinct files or bitstreams to be
-            represented within it. Popular examples of packaging formats
-            include ZIP, PDF, MP4, tar and Open Office XML.</dd>
+<dt><dfn id="dfn-mediatype">Media Type</dfn></dt>
+<dd>A two-part identifier  for file formats that are transferred on the World Wide Web and the underlying Internet. [[IANA-MEDIA-TYPES]].</dd>
 
-          <dt><dfn id="dfn-webpage" data-lt="pages">Page</dfn></dt>
-          <dd>A web document as viewed in a web browser that is viewing a
-            specific URL. Sometimes referred to as a <em>web page</em>.</dd>
+<dt><dfn id="dfn-package" data-lt="packaging|packaged">Package</dfn></dt>
+<dd>A file format that allows distinct files or bitstreams to be represented within it. Popular examples of packaging formats include ZIP, PDF, MP4, tar and Open Office XML.</dd>
 
-          <dt><dfn id="dfn-wacz" data-lt="web archive collection">WACZ</dfn></dt>
-          <dd>Web Archive Collection Zipped. A file that conforms to this specification 
-            which is used to package up <a>WARC</a> data and metadata into a
-            <a>ZIP</a> file for distribution and replay on the web</dd>
+<dt><dfn id="dfn-webpage" data-lt="pages">Page</dfn></dt>
+<dd>A web document as viewed in a web browser that is viewing a specific URL. Sometimes referred to as a <em>web page</em>.</dd>
 
-          <dt><dfn id="dfn-warc">WARC</dfn></dt>
-          <dd>A file containing concatenated representations of web resources conforming 
-            to the [[WARC]] specification.</dd>
+<dt><dfn id="dfn-wacz" data-lt="web archive collection">WACZ</dfn></dt>
+<dd>Web Archive Collection Zipped. A file that conforms to this specification which is used to package up <a>WARC</a> data and metadata into a <a>ZIP</a> file for distribution and replay on the web</dd>
 
-          <dt><dfn id="dfn-wayback">Wayback Machine</dfn></dt>
-          <dd>A well known web application for replaying archived web pages that
-            was initially developed at the Internet Archive and has been forked
-            as an open soruce application by the <a>IIPC</a>.</dd>
+<dt><dfn id="dfn-warc">WARC</dfn></dt>
+<dd>A file containing concatenated representations of web resources conforming to the [[WARC]] specification.</dd>
 
-          <dt><dfn id="dfn-web-archive">Web Archive</dfn></dt>
-          <dd>A collection of files that preserve representations of web
-            resources in the WARC format. A web archive may also include
-            derivative files such as CDX indexes for accessing records within
-            the archive.</dd>
+<dt><dfn id="dfn-wayback">Wayback Machine</dfn></dt>
+<dd>A well known web application for replaying archived web pages that was initially developed at the Internet Archive and has been forked as an open soruce application by the <a>IIPC</a>.</dd>
 
-          <dt><dfn id="dfn-zip-file" data-lt="zip">ZIP file</dfn></dt>
-          <dd>A file conforming to the [[ZIP]] specification which is used to 
-            aggregate, compress, and encrypt files into a single interoperable 
-            container. WACZ allows for both ZIP and ZIP64 encodings for larger
-            archives.</dd>
+<dt><dfn id="dfn-web-archive">Web Archive</dfn></dt>
+<dd>A collection of files that preserve representations of web resources in the WARC format. A web archive may also include derivative files such as CDX indexes for accessing records within the archive.</dd>
 
-        </dl>
-      </div>
+<dt><dfn id="dfn-zip-file" data-lt="zip">ZIP file</dfn></dt>
+<dd>A file conforming to the [[ZIP]] specification which is used to aggregate, compress, and encrypt files into a single interoperable container. WACZ allows for both ZIP and ZIP64 encodings for larger archives.</dd>
 
-    </section>
-
-    <section data-format="markdown">
+</dl>
 
 # Introduction
 
@@ -210,7 +72,7 @@ The goal of this specification is to provide a portable format for
 <a>web archives</a> in order to achieve two broad goals for web archives:
 
 1. *Social*: to provide an interoperable way of sharing web archive
-<a>collections</a> that includes the <a>contextual information</a> needed 
+   <a>collections</a> that includes the <a>contextual information</a> needed 
    for users to interpret and meaningfully interact with them.
 
 2. *Technical*: to provide an efficient way to dynamically load 
@@ -250,10 +112,6 @@ reference implementation for creating WACZ files from existing WARC files, and
 validating them. Parts of the specification are also implemented and in use by
 [wabac.js](https://github.com/webrecorder/wabac.js) and
 [ReplayWeb.page](https://replayweb.page).
-
-    </section>
-
-    <section data-format="markdown">
 
 # WACZ Object
 
@@ -436,10 +294,6 @@ A ZIP file that follows this Web Archive Collection format spec MUST use the ext
 
 Such a file can be referred to as a WACZ file or a WACZ.
 
-    </section>
-
-    <section data-format="markdown">
-
 # Processing Model
 
 The [[ZIP]] file format provides efficient random access, which means archived
@@ -462,10 +316,6 @@ To lookup a given URL the client needs to:
 4. Read compressed WARC chunk in ZIP
 
 This approach is being used by [ReplayWeb.page](https://replayweb.page)
-
-    </section>
-
-    <section data-format="markdown">
 
 # Publishing
 
@@ -529,10 +379,3 @@ Content-Length: 20961755
 Accept-Ranges: bytes
 Access-Control-Allow-Origin: *
 </pre>
-
-  </section>
-
-
-  </body>
-
-</html>
