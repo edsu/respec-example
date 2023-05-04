@@ -11,4 +11,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run respec_action
-        uses: edsu/respec-action@v0.1.4
+        uses: edsu/respec-action@v0.1.5
