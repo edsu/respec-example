@@ -130,7 +130,7 @@ A <a>WACZ</a> contains a directory structure, that contains web archive
 collection data which MUST conform to the [[FRICTIONLESS-DATA-PACKAGE]]
 specification. This directory structure looks like:
 
-```
+<pre class="example">
 ├── archive
 │   └── data.warc.gz
 ├── datapackage.json
@@ -139,7 +139,7 @@ specification. This directory structure looks like:
 │   └── index.cdx.gz
 └── pages
     └── pages.jsonl
-```
+</pre>
 
 ## Directories and Files
 
